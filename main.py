@@ -19,3 +19,4 @@ d = deploy(20, 40)
 
 print(d.coord)
 
+print('Hello World!')
