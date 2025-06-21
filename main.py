@@ -1,22 +1,27 @@
-first_num = 39
-second_num = 54
-# Это функция сумматор
-def add(a: int, b: int) -> int:
-    return a + b
+import requests
+import time
 
-print(add(first_num, second_num))
 
-class deploy:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-    
-    @property
-    def coord(self):
-        return self.x, self.y
-    
-d = deploy(20, 40)
+API_URL = 'https://api.telegram.org/bot'
+BOT_TOKEN = '5424991242:AAGwomxQz1p46bRi_2m3V7kvJlt5RjK9xr0'
 
-print(d.coord)
+offset = -2
+updates: dict
 
-print('Hello World!')
+
+def do_something() -> None:
+    print('Был апдейт')
+
+
+while True: 
+    start_time = time.time()
+    updates = requests.get(f'{API_URL}{BOT_TOKEN}/getUpdates?offset={offset + 1}').json()
+
+    if updates['result']:
+        for result in updates['result']:
+            offset = result['update_id']
+            do_something()
+
+    time.sleep(3)
+    end_time = time.time()
+    print(f'Время между запросами к Telegram Bot API: {end_time - start_time}')
